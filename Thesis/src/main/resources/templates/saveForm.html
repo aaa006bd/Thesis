@@ -1,0 +1,24 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Insert title here</title>
+<link type="text/css" rel="stylesheet" media="all"
+	href="css/bootstrap.min.css"></link>
+</head>
+<body>
+	<div th:if="${message}">
+		<h3 th:text="${message}"></h3>
+	</div>
+	<div>
+		<form action="#" th:action="@{/save}" th:object="${imageFeatures}"
+			method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<label for="imageFile">upload image </label> <input type="file"
+					name="imageFile" id="imageFile" />
+			</div>
+			<input type="submit" value="upload" class="btn btn-default" />
+		</form>
+	</div>
+</body>
+</html>

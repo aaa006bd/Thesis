@@ -1,0 +1,28 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Insert title here</title>
+<link type="text/css" rel="stylesheet" media="all"
+	href="css/bootstrap.min.css"></link>
+</head>
+<body>
+	<div th:if="${imageFeatures}">
+		<h3 th:text="${imageFeatures.caption}"></h3>
+ 
+		<table>
+			<tr>
+				<td >image height:</td>
+				<td th:text="${height}"></td>
+			</tr>
+			
+			<tr>
+				<td >image width:</td>
+				<td th:text="${width}"></td>
+			</tr>
+			
+		</table>
+		 
+	</div>
+</body>
+</html>

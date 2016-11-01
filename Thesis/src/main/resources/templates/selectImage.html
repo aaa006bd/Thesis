@@ -1,0 +1,27 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Insert title here</title>
+<link type="text/css" rel="stylesheet" media="all"
+	href="css/bootstrap.min.css"></link>
+</head>
+<body>
+	<div th:if="${imageList}">
+
+		<form action="#" th:action="@{/select}" th:object="${imageId}"
+			method="post" id="selectionForm">
+
+			<div class="form-group">
+				<label for="imageFile">select image </label> 
+				<select	th:field="*{id}" form="selectionForm">
+					<option th:each="image:${imageList}" th:value="${image.id}"
+						th:text="${image.caption}">images</option>
+				</select>
+			</div>
+			<input type="submit" value="compare" class="btn btn-default" />
+		</form>
+
+	</div>
+</body>
+</html>

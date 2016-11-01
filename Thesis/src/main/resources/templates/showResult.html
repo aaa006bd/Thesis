@@ -1,0 +1,27 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Insert title here</title>
+<link type="text/css" rel="stylesheet" media="all"
+	href="css/bootstrap.min.css"></link>
+</head>
+<body>
+	<div th:if="${imageInfo}">
+
+		<table class="table table-bordered">
+			<tr>
+				<th>Image Id</th>
+				<th>Caption</th>
+				<th>similarity</th>
+			</tr>
+			<tr th:each="resultVal : ${imageInfo} ">
+				<td th:text="${resultVal.id}">image id</td>
+				<td th:text="${resultVal.imageCapiton}">image caption</td>
+				<td th:text="${resultVal.results}">similarity</td>
+			</tr>
+		</table>
+	</div>
+
+</body>
+</html>
