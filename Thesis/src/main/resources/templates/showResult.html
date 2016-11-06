@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div th:if="${imageInfo}">
-
+		<h3>Similarity Info of image</h3>
 		<table class="table table-bordered">
 			<tr>
 				<th>Image Id</th>
@@ -19,6 +19,24 @@
 				<td th:text="${resultVal.id}">image id</td>
 				<td th:text="${resultVal.imageCapiton}">image caption</td>
 				<td th:text="${resultVal.results}">similarity</td>
+			</tr>
+		</table>
+	</div>
+	<div th:if="${imageProcessTime}">
+
+		<h3>Process Time of image</h3>
+		<table class="table table-bordered">
+			<tr>
+				<th>Image Id</th>
+				<th>Caption</th>
+				<th>MilliSeconds</th>
+				<th>NanoSeconds</th>
+			</tr>
+			<tr th:each="resultVal : ${imageProcessTime} ">
+				<td th:text="${resultVal.id}">image id</td>
+				<td th:text="${resultVal.imageCaption}">image caption</td>
+				<td th:text="${resultVal.processTimeMillis}">time in millis</td>
+				<td th:text="${resultVal.processTimeNanos}">time in nanos</td>
 			</tr>
 		</table>
 	</div>

@@ -1,26 +1,25 @@
 package com.example.controllers;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-import org.openqa.selenium.lift.find.ImageFinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.models.ImageFeatures;
 import com.example.models.ImageId;
 import com.example.models.ImageRepository;
+import com.example.models.ProcessTimeMachine;
 import com.example.services.ImageProcessor;
 import com.example.services.JsonPerserService;
 
-import scala.annotation.meta.setter;
 
 @Controller
 public class ImageComparatorContorller {
@@ -43,6 +42,7 @@ public class ImageComparatorContorller {
 		return "selectImage";
 	}
 	
+	// time measurement unit has been added
 	@PostMapping("/select")
 	public String comapareImageAndShowResult(
 			@ModelAttribute ImageId imageId,
@@ -53,6 +53,7 @@ public class ImageComparatorContorller {
 		allImages.remove(selectedImage);
 		
 		List<ImageId>results = new ArrayList<>();
+		List<ProcessTimeMachine> processTime = new ArrayList<>();
 		
 		Mat featuresOfSelectedImage = jsonParser.jsonToMat(selectedImage.getImageFeatures());
 		
@@ -62,11 +63,26 @@ public class ImageComparatorContorller {
 			resultTemp.setId(image.getId());
 			resultTemp.setImageCapiton(image.getCaption());
 			
+			Instant processStart = Instant.now();// start time of each process
+			
 			Mat featuresOfTheOtherImage = jsonParser.jsonToMat(image.getImageFeatures());
 			resultTemp.setResults(processor.compareHistogram(featuresOfSelectedImage, featuresOfTheOtherImage));
+
+			Instant processEnd = Instant.now();// end time of each process
+			
+			ProcessTimeMachine processTimeInfo = new ProcessTimeMachine();
+			processTimeInfo.setId(image.getId());
+			processTimeInfo.setImageCaption(image.getCaption());
+			processTimeInfo.setProcessTimeMillis( 
+					Duration.between(processStart, processEnd).toMillis());// process time in millisecond
+			processTimeInfo.setProcessTimeNanos(
+					Duration.between(processStart, processEnd).toNanos());// process time in nanosecond
+	
+			processTime.add(processTimeInfo);
 			results.add(resultTemp);
 		}
 		model.addAttribute("imageInfo", results);
+		model.addAttribute("imageProcessTime",processTime);
 		
 		return "showResult";
 		
