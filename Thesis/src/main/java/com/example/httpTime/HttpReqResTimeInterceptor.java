@@ -1,14 +1,15 @@
 package com.example.httpTime;
 
-import java.time.Duration;
 import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+@Component
 public class HttpReqResTimeInterceptor extends HandlerInterceptorAdapter{
 
 	@Override
@@ -16,7 +17,7 @@ public class HttpReqResTimeInterceptor extends HandlerInterceptorAdapter{
 			throws Exception {
 		Instant responseTimeInstance = Instant.now();
 		long responseTime = responseTimeInstance.toEpochMilli()-(Long)request.getAttribute("requestStartTime");
-		System.err.println("response time without rendering view: "+responseTime);
+		System.err.println("response time with rendering view: "+responseTime);
 	}
 
 	@Override

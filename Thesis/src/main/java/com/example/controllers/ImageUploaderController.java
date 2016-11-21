@@ -44,7 +44,7 @@ public class ImageUploaderController {
 			@RequestParam("imageFile") MultipartFile imageFileObj,
 			RedirectAttributes redirectAttribs
 			){
-		showFileParamsInConsole(imageFileObj);
+		//showFileParamsInConsole(imageFileObj);
 		
 		try {
 			byte[] imageInBytes = imageFileObj.getBytes();//after so many research :v

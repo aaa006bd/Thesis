@@ -1,8 +1,6 @@
 package com.example.services;
 
 
-import java.util.Base64;
-
 import org.opencv.core.Mat;
 import org.springframework.stereotype.Service;
 
