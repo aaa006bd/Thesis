@@ -33,8 +33,7 @@ public class HttpReqResTimeInterceptor extends HandlerInterceptorAdapter{
 			throws Exception {
 		long requestTimeInstance = Instant.now().toEpochMilli();
 		request.setAttribute("requestStartTime", requestTimeInstance);
-		System.err.println("inside pre handle");
-		
+		System.err.println("request method type: "+request.getMethod());
 		return true;
 	}
 	
