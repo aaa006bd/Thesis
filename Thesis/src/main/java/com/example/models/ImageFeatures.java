@@ -31,7 +31,12 @@ public class ImageFeatures {
 		this.imageFeatures = imageFeatures;
 	}
 
-
+	//for lightweight loading in select page
+	public ImageFeatures(long id, String caption) {
+		super();
+		this.id = id;
+		this.caption = caption;
+	}
 
 	public byte[] getImageRaw() {
 		return imageRaw;

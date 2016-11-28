@@ -36,7 +36,7 @@ public class ImageComparatorContorller {
 	@GetMapping("/select")
 	public String selectImageToCompare(Model model){
 		
-		List<ImageFeatures> allImages = repository.findAll();
+		List<ImageFeatures> allImages = repository.findImageDetails();
 		model.addAttribute("imageList", allImages);
 		model.addAttribute("imageId", new ImageId());
 		return "selectImage";
@@ -47,7 +47,6 @@ public class ImageComparatorContorller {
 	public String comapareImageAndShowResult(
 			@ModelAttribute ImageId imageId,
 			Model model){
-		System.err.println("id: "+ imageId.getId());
 		ImageFeatures selectedImage = repository.findOne(imageId.getId());
 		List<ImageFeatures> allImages = repository.findAll();
 		allImages.remove(selectedImage);
