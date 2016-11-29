@@ -1,5 +1,7 @@
 package com.example.controllers;
 
+import java.io.FileWriter;
+import java.io.Writer;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import com.example.models.ImageRepository;
 import com.example.models.ProcessTimeMachine;
 import com.example.services.ImageProcessor;
 import com.example.services.JsonPerserService;
+import com.google.gson.Gson;
 
 
 @Controller
@@ -51,10 +54,10 @@ public class ImageComparatorContorller {
 		List<ImageFeatures> allImages = repository.findAll();
 		allImages.remove(selectedImage);
 		
+		Mat featuresOfSelectedImage = jsonParser.jsonToMat(selectedImage.getImageFeatures());
+		
 		List<ImageId>results = new ArrayList<>();
 		List<ProcessTimeMachine> processTime = new ArrayList<>();
-		
-		Mat featuresOfSelectedImage = jsonParser.jsonToMat(selectedImage.getImageFeatures());
 		
 		for (ImageFeatures image : allImages) {
 			
@@ -80,10 +83,22 @@ public class ImageComparatorContorller {
 			processTime.add(processTimeInfo);
 			results.add(resultTemp);
 		}
+		
+		writeJsonFeedForTime(processTime);
+		
 		model.addAttribute("imageInfo", results);
 		model.addAttribute("imageProcessTime",processTime);
 		
 		return "showResult";
 		
+	}
+	
+	private void writeJsonFeedForTime(List<ProcessTimeMachine> processTimeList){
+		try(Writer writer = new FileWriter("timeList.json")) {
+			Gson jsonParser = new Gson();
+			jsonParser.toJson(processTimeList,writer);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
