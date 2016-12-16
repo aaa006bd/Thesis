@@ -30,12 +30,22 @@ public class ImageFeatures {
 		
 		this.imageFeatures = imageFeatures;
 	}
+	
 
 	//for lightweight loading in select page
 	public ImageFeatures(long id, String caption) {
 		super();
 		this.id = id;
 		this.caption = caption;
+	}
+	
+	
+
+	public ImageFeatures(long id, String caption, String imageFeatures) {
+		super();
+		this.id = id;
+		this.caption = caption;
+		this.imageFeatures = imageFeatures;
 	}
 
 	public byte[] getImageRaw() {

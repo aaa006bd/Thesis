@@ -54,7 +54,8 @@ public class BulkUploaderController {
 		int counter = 0;
 
 		try {
-			allFilesOfFolder = Files.walk(directoryPath).filter(Files::isRegularFile).map(Path::toFile)
+			allFilesOfFolder = Files.walk(directoryPath)
+					.filter(Files::isRegularFile).map(Path::toFile)
 					.collect(Collectors.toList());
 			Collections.sort(allFilesOfFolder,sortByName);
 		} catch (IOException e) {
@@ -70,7 +71,7 @@ public class BulkUploaderController {
 				imgFeatureObj.setImageRaw(imageInBytes);			
 				insertImageFeature(imgFeatureObj, imageInBytes);
 				
-				//repository.save(imgFeatureObj);
+				repository.save(imgFeatureObj);
 				
 				System.out.println(file.getName()+" uploaded successfully");
 				System.out.println("no of images uploaded : "+ (++counter));

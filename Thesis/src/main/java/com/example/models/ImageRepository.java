@@ -12,4 +12,7 @@ public interface ImageRepository extends JpaRepository<ImageFeatures , Long> {
 	@Query("SELECT new com.example.models.ImageFeatures(f.id,f.caption) FROM ImageFeatures f")
 	public List<ImageFeatures> findImageDetails();
 	
+	@Query("SELECT new com.example.models.ImageFeatures(f.id,f.caption,f.imageFeatures) FROM ImageFeatures f")
+	public List<ImageFeatures>findImageFeatures();
+	
 }

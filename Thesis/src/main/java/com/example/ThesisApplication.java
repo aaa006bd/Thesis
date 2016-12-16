@@ -7,9 +7,13 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
+
 import com.example.models.ImageRepository;
 
 @SpringBootApplication
+
 public class ThesisApplication {
 	
 	@Bean

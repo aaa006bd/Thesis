@@ -51,7 +51,7 @@ public class ImageComparatorContorller {
 			@ModelAttribute ImageId imageId,
 			Model model){
 		ImageFeatures selectedImage = repository.findOne(imageId.getId());
-		List<ImageFeatures> allImages = repository.findAll();
+		List<ImageFeatures> allImages = repository.findImageFeatures();
 		allImages.remove(selectedImage);
 		
 		Mat featuresOfSelectedImage = jsonParser.jsonToMat(selectedImage.getImageFeatures());
