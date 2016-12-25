@@ -1,0 +1,10 @@
+request type:GET view rendering: false
+request handle time:114
+request type:GET view rendering: true
+request handle time:1336
+query time:816
+total process time:3620
+request type:POST view rendering: false
+request handle time:4573
+request type:POST view rendering: true
+request handle time:5057

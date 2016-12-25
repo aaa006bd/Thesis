@@ -1,5 +1,7 @@
 package com.example.httpTime;
 
+import java.io.FileWriter;
+import java.io.Writer;
 import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ public class HttpReqResTimeInterceptor extends HandlerInterceptorAdapter {
 		Instant responseTimeInstance = Instant.now();
 		long responseTime = responseTimeInstance.toEpochMilli() - (Long) request.getAttribute("requestStartTime");
 		System.err.println("response time with rendering view: " + responseTime);
+		writeTimeInfoToFile(responseTime, request.getMethod(), true);
 	}
 
 	@Override
@@ -26,6 +29,8 @@ public class HttpReqResTimeInterceptor extends HandlerInterceptorAdapter {
 		Instant responseTimeInstance = Instant.now();
 		long responseTime = responseTimeInstance.toEpochMilli() - (Long) request.getAttribute("requestStartTime");
 		System.err.println("response time without rendering view: " + responseTime);
+		writeTimeInfoToFile(responseTime, request.getMethod(), false);
+		
 	}
 
 	@Override
@@ -36,6 +41,15 @@ public class HttpReqResTimeInterceptor extends HandlerInterceptorAdapter {
 		System.err.println("request method type: " + request.getMethod());
 
 		return true;
+	}
+	
+	public void writeTimeInfoToFile(long time,String requestType,boolean doesRenderValue){
+		try(Writer writer = new FileWriter("statistics.txt",true)) {
+			writer.write("request type:"+requestType+" view rendering: "+doesRenderValue+"\n");
+			writer.write("request handle time:"+time+"\n");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 }

@@ -50,9 +50,14 @@ public class ImageComparatorContorller {
 	public String comapareImageAndShowResult(
 			@ModelAttribute ImageId imageId,
 			Model model){
+		
+		Instant queryTimeStart = Instant.now();
 		ImageFeatures selectedImage = repository.findOne(imageId.getId());
 		List<ImageFeatures> allImages = repository.findImageFeatures();
 		allImages.remove(selectedImage);
+		Instant queryTimeStop = Instant.now();
+		
+		long queryTimeInMillis = Duration.between(queryTimeStart, queryTimeStop).toMillis();
 		
 		Mat featuresOfSelectedImage = jsonParser.jsonToMat(selectedImage.getImageFeatures());
 		
@@ -84,7 +89,10 @@ public class ImageComparatorContorller {
 			results.add(resultTemp);
 		}
 		
+		long accumulateProcessTime = processTime.stream().mapToLong(obj->obj.processTimeMillis).sum();//stream use java 8 features
+		
 		writeJsonFeedForTime(processTime);
+		writeTimeInfoTofile(queryTimeInMillis, accumulateProcessTime);
 		
 		model.addAttribute("imageInfo", results);
 		model.addAttribute("imageProcessTime",processTime);
@@ -99,6 +107,15 @@ public class ImageComparatorContorller {
 			jsonParser.toJson(processTimeList,writer);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	private void writeTimeInfoTofile(long queryTime,long accumulateProcessTime){
+		try(Writer writer = new FileWriter("statistics.txt",true)) {
+			writer.write("query time:"+queryTime+"\n");
+			writer.write("total process time:"+accumulateProcessTime+"\n");
+			writer.flush();
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 }
