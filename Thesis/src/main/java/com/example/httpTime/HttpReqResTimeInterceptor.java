@@ -44,7 +44,7 @@ public class HttpReqResTimeInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	public void writeTimeInfoToFile(long time, String requestType, boolean doesRenderValue) {
-		try (Writer writer = new FileWriter("statistics.txt", true)) {
+		try (Writer writer = new FileWriter("statistics.csv", true)) {
 
 			if (requestType.equals("POST") && !doesRenderValue) {
 				writer.write(time + ", ");

@@ -110,7 +110,7 @@ public class ImageComparatorContorller {
 		}
 	}
 	private void writeTimeInfoTofile(long queryTime,long accumulateProcessTime){
-		try(Writer writer = new FileWriter("statistics.txt",true)) {
+		try(Writer writer = new FileWriter("statistics.csv",true)) {
 			writer.write(queryTime+", ");
 			writer.write(accumulateProcessTime+", ");
 			writer.flush();
