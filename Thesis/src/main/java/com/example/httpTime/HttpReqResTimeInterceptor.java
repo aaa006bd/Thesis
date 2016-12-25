@@ -30,7 +30,7 @@ public class HttpReqResTimeInterceptor extends HandlerInterceptorAdapter {
 		long responseTime = responseTimeInstance.toEpochMilli() - (Long) request.getAttribute("requestStartTime");
 		System.err.println("response time without rendering view: " + responseTime);
 		writeTimeInfoToFile(responseTime, request.getMethod(), false);
-		
+
 	}
 
 	@Override
@@ -42,11 +42,16 @@ public class HttpReqResTimeInterceptor extends HandlerInterceptorAdapter {
 
 		return true;
 	}
-	
-	public void writeTimeInfoToFile(long time,String requestType,boolean doesRenderValue){
-		try(Writer writer = new FileWriter("statistics.txt",true)) {
-			writer.write("request type:"+requestType+" view rendering: "+doesRenderValue+"\n");
-			writer.write("request handle time:"+time+"\n");
+
+	public void writeTimeInfoToFile(long time, String requestType, boolean doesRenderValue) {
+		try (Writer writer = new FileWriter("statistics.txt", true)) {
+
+			if (requestType.equals("POST") && !doesRenderValue) {
+				writer.write(time + ", ");
+			}else if(requestType.equals("POST") && doesRenderValue){
+				writer.write(time+"\n");
+			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
